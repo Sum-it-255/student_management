@@ -1,0 +1,112 @@
+CREATE DATABASE student_management;
+
+
+CREATE TABLE students (
+  student_id SERIAL PRIMARY KEY,
+  first_name VARCHAR(100) NOT NULL,
+  last_name VARCHAR(100) NOT NULL,
+  email VARCHAR(255) UNIQUE,
+  enrollment_date DATE DEFAULT CURRENT_DATE
+);
+
+
+CREATE TABLE courses (
+  course_id SERIAL PRIMARY KEY,
+  course_name VARCHAR(60) NOT NULL,
+  department_id INT,
+  credits INT NOT NULL
+);
+
+
+CREATE TABLE enrollments (
+  enrollment_id SERIAL PRIMARY KEY,
+  student_id INT REFERENCES students(student_id) ON DELETE CASCADE, 
+  course_id INT REFERENCES courses(course_id) ON DELETE CASCADE,
+  grade VARCHAR(2)
+);
+
+
+CREATE TABLE departments (
+  department_id SERIAL PRIMARY KEY,
+  department_name VARCHAR(100) NOT NULL
+);
+
+
+
+
+INSERT INTO students
+VALUES
+  (1, 'Sumit', 'Shrestha', 'sumitshrestha057@gmail.com', '2025-03-30'),
+  (2, 'Aarav', 'Sharma', 'aarav.sharma@example.com', '2025-03-28'),
+  (3, 'Priya', 'Kumar', 'priya.kumar@example.com', '2025-03-25'),
+  (4, 'Ravi', 'Patel', 'ravi.patel@example.com', '2025-03-22'),
+  (5, 'Neha', 'Singh', 'neha.singh@example.com', '2025-03-20');
+
+
+INSERT INTO courses
+VALUES
+  (31, 'Physics', 1100, 4),
+  (32, 'Mathematics', 1101, 3),
+  (33, 'Computer Science', 1102, 4),
+  (34, 'Chemistry', 1100, 3),
+  (35, 'Biology', 1103, 3);
+
+
+
+
+INSERT INTO departments (department_id, department_name)
+VALUES
+  (1100, 'Physical Sciences'),
+  (1101, 'Applied Mathematics'),
+  (1102, 'Software Engineering'),
+  (1103, 'Chemical Engineering'),
+  (1104, 'Life Sciences');
+
+INSERT INTO enrollments (enrollment_id, student_id, course_id, grade)
+VALUES
+  (1, 1, 31, 'A'),
+  (2, 2, 32, 'B+'),
+  (3, 3, 33, 'A-'),
+  (4, 4, 34, 'B'),
+  (5, 5, 35, 'A');
+
+
+UPDATE students
+SET email = 'newemail@example.com'
+WHERE student_id = 1;
+UPDATE students
+SET email = 'newemail@example.com'
+WHERE student_id = 1;
+
+
+UPDATE courses
+SET credits = 5
+WHERE course_id = 33;
+
+
+UPDATE enrollments
+SET grade = 'A+'
+WHERE enrollment_id = 3;
+
+
+UPDATE departments
+SET department_name = 'Advanced Mathematics'
+WHERE department_id = 1101;
+
+
+DELETE FROM students
+WHERE student_id = 5;
+
+
+DELETE FROM courses
+WHERE course_id = 34;
+
+
+DELETE FROM enrollments
+WHERE enrollment_id = 2;
+
+
+DELETE FROM departments
+WHERE department_id = 1104;
+
+
